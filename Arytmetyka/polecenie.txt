@@ -1,0 +1,12 @@
+Zadanie 1 (1 pkt) Porównać w języku Julia reprezentację bitową liczby 1/3 dla Float16, Float32, Float64 oraz liczby, która jest inicjalizowana jako Float16, a potem rzutowana na Float64.
+
+Zadanie 2 (1 pkt) Zbadać, jak zmienia się odległość między kolejnymi liczbami zminnoprzecinkowymi reprezentowanymi w komputerze za pomocą języka Julia. Narysować wykres używając Plots zależności odległości od wartości liczby dla zakresu od 1.0 do 1000000.0.
+
+Zadanie 3 (1 pkt) Jedną z bibliotek numerycznych, jaką będziemy używać na zajęciach jest GSL (język C). Korzystając ze wsparcia dla wyświetlania reprezentacji liczb zmiennoprzecinkowych zobaczyć jak zmienia się cecha i mantysa dla coraz mniejszych liczb. Zaobserwować, kiedy matysa przestaje być znormalizowana i dlaczego?
+
+Zadanie 4 (2 pkt) Na przykładzie wybranego algorytmu niestabilnego numerycznie:
+
+Pokazać, że działa źle.
+Pokazać które konkretnie działania powodują zwiększenie błędu (np. dzielenie przez małą liczbę, cancellation).
+Zademonstować wersję stabilną.
+Wszystkie punkty przedstawić w postaci notatnika Julii.

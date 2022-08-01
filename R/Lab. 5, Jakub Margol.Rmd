@@ -1,0 +1,87 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+#Lab. 5, Jakub Margol
+```{r}
+install.packages('tidyverse')
+library("tidyverse")
+```
+
+```{r}
+results <- read_csv("Pomiary.csv")
+results
+```
+
+```{r}
+results2 <- filter(results, results[1] != "B?AS")
+results2
+```
+
+```{r}
+workingdata <- rename(results2, mult_type = "Mnozenie", matrix_size = "Wielkosc macierzy", time = "Czas wykonania")
+workingdata
+```
+
+
+```{r}
+grouped_calculated <- workingdata %>% 
+    group_by(mult_type, matrix_size) %>%
+    summa?ise(
+        time_sd = sd(time),
+        time_mean = mean(time)
+    )  %>% 
+    ungroup() %>%
+    arrange(mult_type, matrix_size)
+
+grouped_calculated
+```
+```{r}
+ggplot(grouped_calculated, aes(matrix_size, time_mean, color=mult_type)) + 
+  geom_point() + 
+ ?ylab("Czas wykonania [s]") + 
+  xlab("Wielkosc macierzy") +
+  scale_colour_discrete("Typ mnozenia") +
+  geom_errorbar(aes(ymin = time_mean-time_sd, ymax = time_mean+time_sd, width=.10))
+```
+
+```{r}
+results2 <- filter(results, results[1] != "BLAS")
+grouped_?aive <- filter(grouped_calculated, mult_type == "Naive")
+grouped_Naive_means <- grouped_Naive[[4]]
+grouped_Better <- filter(grouped_calculated, mult_type == "Better")
+grouped_Better_means <- grouped_Better[[4]]
+sizes = grouped_Naive[[2]]
+
+grouped_Naive_mea?s
+grouped_Better_means
+sizes
+```
+
+```{r}
+poly_data_naive <- data.frame(sizes, grouped_Naive_means)
+poly_data_naive <- rename(poly_data_naive, x = sizes, y = grouped_Naive_means)
+poly_data_better <- data.frame(sizes, grouped_Better_means)
+poly_data_better <? rename(poly_data_better, x = sizes, y = grouped_Better_means)
+
+fit_naive <- lm(y ~ poly(x, 3, raw=TRUE), data=poly_data_naive)
+fit_better <- lm(y ~ poly(x, 3, raw=TRUE), data=poly_data_better)
+
+newdata = data.frame(x = seq(100, 1000, length.out=250))
+newd?ta2 = data.frame(x = seq(100, 1000, length.out=250))
+```
+
+```{r}
+newdata$y = predict(fit_naive, newdata)
+newdata <- add_column(newdata, mult_type="Naive")
+newdata2$y = predict(fit_better, newdata)
+newdata2 <- add_column(newdata2, mult_type="Better")
+```
+
+`?`{r}
+last_plot() + 
+  geom_line(data=newdata, aes(x,y)) +
+  geom_line(data=newdata2, aes(x,y))
+```
+
